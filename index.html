@@ -52,6 +52,19 @@ header{
   object-fit:cover;
 }
 
+#welcome-text{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  color:#fff;
+  font-weight:bold;
+  text-align:center;
+  font-size:16px;
+  text-shadow:0 2px 5px rgba(0,0,0,0.6);
+  pointer-events:none;
+}
+
 /* WELCOME & SEARCH */
 #welcome{text-align:center;margin:10px;font-size:18px;font-weight:bold;color:#1e88e5;}
 #searchBox{width:95%;margin:10px auto;padding:10px 15px;border-radius:25px;border:2px solid #1e88e5;font-size:16px;}
@@ -70,17 +83,19 @@ header{
 .qty-btn{width:32px;height:32px;border:none;border-radius:50%;background:#1e88e5;color:#fff;font-size:18px;cursor:pointer;}
 .qty-input{width:50px;text-align:center}
 
-/* MINI CART BUTTON */
+/* MINI CART BUTTON + TIP + FLY */
 #miniCartWrapper{
   position:fixed;
   bottom:10px;
   right:15px;
+  display:flex;
+  align-items:center;
+  gap:10px;
   z-index:1000;
 }
 #miniCartBtn{
   background:#1e88e5;
-  color:#fff;
-  width:50px;
+  color:#fff;width:50px;
   height:50px;
   border-radius:50%;
   display:flex;
@@ -103,8 +118,7 @@ header{
   top:-5px;
   right:-5px;
   background:red;
-  color:#fff;
-  width:18px;
+  color:#fff;width:18px;
   height:18px;
   font-size:12px;
   border-radius:50%;
@@ -112,22 +126,39 @@ header{
   justify-content:center;
   align-items:center;
 }
+#miniCartTipWrapper{
+  display:none;
+  flex-direction: row;
+  align-items:center;gap:5px;
+  pointer-events:none;
+  animation:tipMove 1s ease-in-out infinite alternate;
+}
+@keyframes tipMove{
+  0%{transform:translateX(0);}
+  100%{transform:translateX(-10px);}
+}
+#miniCartTip{
+  background:#fff;
+  color:#1e88e5;
+  padding:5px 12px;
+  border-radius:6px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.2);
+  font-size:14px;
+  font-weight:bold;
+  white-space:nowrap;
+}
+.fly-product{
+  position:fixed;
+  width:50px;
+  height:50px;
+  border-radius:8px;
+  z-index:10000;
+  pointer-events:none;
+  transition: transform 0.6s cubic-bezier(.65,.05,.36,1), opacity 0.6s;
+}
 
 /* CART POPUP */
-#cartBox{
-  background:#fff;
-  padding:10px;
-  border-radius:10px;
-  box-shadow:0 4px 15px rgba(0,0,0,0.3);
-  position:fixed;
-  bottom:75px;
-  right:15px;
-  width:300px;
-  max-width:90%;
-  z-index:1001;
-  display:none;
-  font-size:14px;
-}
+#cartBox{background:#fff;padding:10px;border-radius:10px;box-shadow:0 4px 15px rgba(0,0,0,0.3);position:fixed;bottom:75px;right:15px;width:300px;max-width:90%;z-index:1001;display:none;font-size:14px;}
 .cart-item{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;font-size:13px;}
 .remove{color:red;cursor:pointer;}
 .total{font-weight:bold;margin-top:4px;text-align:right;font-size:14px;}
@@ -140,11 +171,11 @@ header{
 <header>👶fournisseur Couche Bébé</header>
 
 <div id="welcome-slider">
-  <div class="slide"><img src="https://i.ibb.co/j9yLXhcc/product-1.png" alt="صورة 1"></div>
-  <div class="slide"><img src="https://i.ibb.co/qYKw2dvK/images-3.jpg" alt="صورة 2"></div>
-  <div class="slide"><img src="https://i.ibb.co/rR7N2FsN/images-19.jpg" alt="صورة 3"></div>
-  <div class="slide"><img src="https://i.ibb.co/KzVTY4MS/images-21.jpg" alt="صورة 4"></div>
-  <div class="slide"><img src="https://i.ibb.co/Ng1dt1Wg/images-22-2.jpg" alt="صورة 5"></div>
+  <div class="slide"><img src="https://i.ibb.co/j9yLXhcc/product-1.png"></div>
+  <div class="slide"><img src="https://i.ibb.co/qYKw2dvK/images-3.jpg"></div>
+  <div class="slide"><img src="https://i.ibb.co/rR7N2FsN/images-19.jpg"></div>
+  <div class="slide"><img src="https://i.ibb.co/KzVTY4MS/images-21.jpg"></div>
+  <div class="slide"><img src="https://i.ibb.co/Ng1dt1Wg/images-22-2.jpg"></div>
 </div>
 
 <input id="searchBox" placeholder="🔍 بحث عن منتج...👉">
@@ -163,14 +194,18 @@ header{
   <div id="miniCartBtn" onclick="toggleCart()">🛒
     <div id="miniCartCount">0</div>
   </div>
+  <div id="miniCartTipWrapper">
+    <div id="miniCartTip">👉</div>
+    <div id="miniCartTip">اضغط هنا لإرسال الطلب</div>
+  </div>
 </div>
 
 <!-- CART POPUP -->
 <div class="cart" id="cartBox">
-  <h3>🛒 السلة</h3>
-  <div id="cartItems"></div>
-  <div class="total">المجموع: <span id="total">0</span> دج</div>
-  <div class="whatsapp" onclick="sendOrder()">📲 طلب عبر واتساب</div>
+<h3>🛒 السلة</h3>
+<div id="cartItems"></div>
+<div class="total">المجموع: <span id="total">0</span> دج</div>
+<div class="whatsapp" onclick="sendOrder()">📲 طلب عبر واتساب</div>
 </div>
 
 <script>
@@ -182,15 +217,15 @@ let products = [
 {id:4,name:"Can Bebe 4 (12P)",price:2850,img:"https://i.ibb.co/prry0btL/images-8.jpg",category:"حفاضات"},
 {id:5,name:"can Bebe 5 (12P)",price:2850,img:"https://i.ibb.co/zWGVLzN5/images-9.jpg",category:"حفاضات"},
 {id:6,name:"Can Bebe 6 (12P)",price:3850,img:"https://i.ibb.co/6RbFVbnk/images-10.jpg",category:"حفاضات"},
-{id:7,name:"chips 150DA",price:3850,img:"https://via.placeholder.com/300",category:"شيبس"}
+{id:7,name:"chips 150DA",price:3850,img:"https://via.placeholder.com/300",category:"شيبس"},
 ];
+
 let cart = [];
 let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
 // RENDER PRODUCTS
 function renderProducts(search="", category="all"){
-  let box=document.getElementById("products");
-  box.innerHTML="";
+  let box=document.getElementById("products"); box.innerHTML="";
   products.filter(p=>{
     let matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
     let matchCategory = (category==="all")||(p.category===category);
@@ -200,7 +235,7 @@ function renderProducts(search="", category="all"){
     let item=cart.find(i=>i.id===p.id);
     if(item) qty=item.qty;
     box.innerHTML+=`
-    <div class="product">
+      <div class="product">
       <img src="${p.img}">
       <h4>${p.name}</h4>
       <div class="price">${p.price} دج</div>
@@ -209,104 +244,100 @@ function renderProducts(search="", category="all"){
         <input class="qty-input" type="number" min="0" id="q${p.id}" value="${qty}">
         <button class="qty-btn" onclick="changeQty(${p.id},1)">+</button>
       </div>
-    </div>`;
+      </div>`;
   });
-  renderCart();
+  updateMiniCart();
 }
 
-// SEARCH & CATEGORY
-document.getElementById("searchBox").oninput = ()=>{
-  let val=document.getElementById("searchBox").value;
-  let cat=document.querySelector(".categoryBtn.active").dataset.category;
-  renderProducts(val,cat);
+// SEARCH + CATEGORY
+document.getElementById("searchBox").oninput = () => {
+  renderProducts(document.getElementById("searchBox").value.trim(),
+    document.querySelector(".categoryBtn.active").dataset.category);
 };
+
 document.querySelectorAll(".categoryBtn").forEach(btn=>{
-  btn.onclick = ()=>{
-    document.querySelectorAll(".categoryBtn").forEach(b=>b.classList.remove("active"));
+  btn.onclick = () => {
+    document.querySelectorAll(".categoryBtn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
-    let cat = btn.dataset.category;
-    let val = document.getElementById("searchBox").value;
-    renderProducts(val,cat);
+    renderProducts(document.getElementById("searchBox").value.trim(), btn.dataset.category);
   };
 });
 
-// CHANGE QTY
+// CHANGE QTY + FLY EFFECT
 function changeQty(id,n){
   let input=document.getElementById("q"+id);
-  let val=parseInt(input.value)||0;
-  val+=n;if(val<0) val=0;input.value=val;
+  let val=parseInt(input.value)||0; val+=n; if(val<0) val=0; input.value=val;
 
   let item=cart.find(x=>x.id==id);
   if(item){if(val===0) cart=cart.filter(x=>x.id!=id); else item.qty=val;}
   else if(val>0){
     let p=products.find(x=>x.id==id);
     cart.push({...p,qty:val});
+
+    // Fly to cart
+    let prodImg=document.querySelector(`#products div.product:nth-child(${products.indexOf(p)+1}) img`);
+    let flyImg=prodImg.cloneNode(true);
+    flyImg.classList.add("fly-product");
+    flyImg.style.left=prodImg.getBoundingClientRect().left+"px";
+    flyImg.style.top=prodImg.getBoundingClientRect().top+"px";
+    document.body.appendChild(flyImg);
+    const cartBtn=document.getElementById("miniCartBtn");
+    const cartRect=cartBtn.getBoundingClientRect();
+    setTimeout(()=>{
+      flyImg.style.transform=`translate(${cartRect.left - prodImg.getBoundingClientRect().left}px, ${cartRect.top - prodImg.getBoundingClientRect().top}px) scale(0.2)`;
+      flyImg.style.opacity="0.7";
+      cartBtn.classList.add("jump");
+    },50);
+    setTimeout(()=>{
+      flyImg.remove();
+      cartBtn.classList.remove("jump");
+    },700);
   }
+
   updateMiniCart();
-  renderCart();
 }
 
-// UPDATE MINI CART COUNT
+// UPDATE MINI CART
 function updateMiniCart(){
-  const count=document.getElementById("miniCartCount");
-  count.innerText = cart.reduce((a,b)=>a+b.qty,0);
-}
-
-// TOGGLE CART POPUP
-function toggleCart(){
-  const cartBox=document.getElementById("cartBox");
-  if(cart.length===0){alert("السلة فارغة"); return;}
-  cartBox.style.display=(cartBox.style.display==="block")?"none":"block";
+  const count=cart.reduce((a,b)=>a+b.qty,0);
+  document.getElementById("miniCartCount").innerText=count;
+  document.getElementById("miniCartTipWrapper").style.display=(count>0)?"flex":"none";
 }
 
 // RENDER CART
 function renderCart(){
-  let box=document.getElementById("cartItems");
+  let box=document.getElementById("cartItems"); box.innerHTML="";
   let total=0;
-  box.innerHTML="";
   cart.forEach(i=>{
     total+=i.price*i.qty;
     box.innerHTML+=`<div class="cart-item">${i.name} x${i.qty}<span class="remove" onclick="removeItem(${i.id})">✖</span></div>`;
   });
   document.getElementById("total").innerText=total;
+  if(cart.length===0) document.getElementById("cartBox").style.display="none";
 }
 
 // REMOVE ITEM
-function removeItem(id){
-  cart=cart.filter(x=>x.id!=id);
-  updateMiniCart();
-  renderCart();
-}
+function removeItem(id){cart=cart.filter(x=>x.id!=id); renderCart(); updateMiniCart();}
 
 // SEND ORDER
 function sendOrder(){
   if(cart.length===0){alert("السلة فارغة"); return;}
-  let total=0;
-  let txt="طلبي:\n";
-  cart.forEach(i=>{
-    let sub=i.price*i.qty;
-    total+=sub;
-    txt+=`${i.name} * ${i.qty} = ${sub} دج\n`;
-  });
-  txt+="المجموع: "+total+" دج";
+  let total=0; let txt="طلبي:\n";
+  cart.forEach(i=>{total+=i.price*i.qty; txt+=`${i.name} * ${i.qty} = ${i.price*i.qty} دج\n`;});
+  txt+=`المجموع: ${total} دج`;
   orders.push({items:[...cart], total:total, date:new Date().toLocaleString()});
-  localStorage.setItem("orders",JSON.stringify(orders));
+  localStorage.setItem("orders", JSON.stringify(orders));
   window.open("https://wa.me/213668909334?text="+encodeURIComponent(txt),"_blank");
-  cart=[];
-  updateMiniCart();
-  renderCart();
-  renderProducts(document.getElementById("searchBox").value,document.querySelector(".categoryBtn.active").dataset.category);
+  cart=[]; renderCart(); updateMiniCart(); renderProducts();
 }
 
+// TOGGLE CART POPUP
+function toggleCart(){let c=document.getElementById("cartBox"); if(cart.length===0){alert("السلة فارغة"); return;} c.style.display=(c.style.display==="block")?"none":"block";}
+
 // SLIDER
-let slides=document.querySelectorAll("#welcome-slider .slide");
-let current=0;
+let slides=document.querySelectorAll("#welcome-slider .slide"),current=0;
 slides[current].style.opacity=1;
-setInterval(()=>{
-  slides[current].style.opacity=0;
-  current=(current+1)%slides.length;
-  slides[current].style.opacity=1;
-},3000);
+setInterval(()=>{slides[current].style.opacity=0; current=(current+1)%slides.length; slides[current].style.opacity=1;},3000);
 
 // INITIAL RENDER
 renderProducts();
