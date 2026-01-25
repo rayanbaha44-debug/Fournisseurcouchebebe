@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>متجر موزعي</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{margin:0;font-family:Arial;background:#f4f6f8;color:#000}
+
+/* BANNER */
+#banner{width:100%;overflow:hidden;background:#ff9800;color:#fff;font-weight:bold;font-size:16px;box-shadow:0 2px 5px rgba(0,0,0,0.2);}
+#bannerContent{display:inline-block;white-space:nowrap;padding:10px 0;animation:moveBanner 15s linear infinite;}
+@keyframes moveBanner{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
+
+header{
+  background:
+    linear-gradient(135deg, rgba(30,136,229,0.85), rgba(67,160,71,0.85)),
+    url("https://i.ibb.co/60cZdZ4R/images.png");
+  background-size: cover;
+  background-position: center;
+  color:#fff;
+  padding:15px;text-align:center;
+  font-size:22px;
+  font-weight:bold;
+  border-bottom-left-radius:15px;
+  border-bottom-right-radius:15px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.2);
+  cursor:pointer;
+}
+
+#welcome-slider{
+  position:relative;
+  width:100%;
+  height:180px;
+  overflow:hidden;
+  border-radius:12px;
+  margin:10px 0;
+}
+
+#welcome-slider .slide{
+  position:absolute;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  opacity:0;
+  transition:opacity 1s ease-in-out;
+}
+
+#welcome-slider .slide img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* WELCOME & SEARCH */
+#welcome{text-align:center;margin:10px;font-size:18px;font-weight:bold;color:#1e88e5;}
+#searchBox{width:95%;margin:10px auto;padding:10px 15px;border-radius:25px;border:2px solid #1e88e5;font-size:16px;}
+
+/* CATEGORY */
+#categoryContainer{width:95%;margin:10px auto;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.categoryBtn{padding:8px 15px;border-radius:25px;border:2px solid #1e88e5;background:#fff;cursor:pointer;}
+.categoryBtn.active{background:#1e88e5;color:#fff;}
+
+/* PRODUCTS */
+.products{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:10px;}
+.product{background:#fff;padding:10px;border-radius:10px;box-shadow:0 2px 5px rgba(0,0,0,.2);text-align:center;}
+.product img{width:100%;border-radius:8px;}
+.price{color:#1e88e5;font-weight:bold;}
+.qty-container{display:flex;justify-content:center;gap:5px;}
+.qty-btn{width:32px;height:32px;border:none;border-radius:50%;background:#1e88e5;color:#fff;font-size:18px;cursor:pointer;}
+.qty-input{width:50px;text-align:center}
+
+/* MINI CART BUTTON */
+#miniCartWrapper{
+  position:fixed;
+  bottom:10px;
+  right:15px;
+  z-index:1000;
+}
+#miniCartBtn{
+  background:#1e88e5;
+  color:#fff;
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:22px;
+  cursor:pointer;
+  position:relative;
+  box-shadow:0 4px 10px rgba(0,0,0,0.3);
+  transition: transform 0.3s;
+}
+#miniCartBtn.jump{animation:jump 0.4s;}
+@keyframes jump{
+  0%{transform:translateY(0);}
+  50%{transform:translateY(-10px);}
+  100%{transform:translateY(0);}
+}
+#miniCartCount{
+  position:absolute;
+  top:-5px;
+  right:-5px;
+  background:red;
+  color:#fff;
+  width:18px;
+  height:18px;
+  font-size:12px;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* CART POPUP */
+#cartBox{
+  background:#fff;
+  padding:10px;
+  border-radius:10px;
+  box-shadow:0 4px 15px rgba(0,0,0,0.3);
+  position:fixed;
+  bottom:75px;
+  right:15px;
+  width:300px;
+  max-width:90%;
+  z-index:1001;
+  display:none;
+  font-size:14px;
+}
+.cart-item{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;font-size:13px;}
+.remove{color:red;cursor:pointer;}
+.total{font-weight:bold;margin-top:4px;text-align:right;font-size:14px;}
+.whatsapp{background:#25d366;color:#fff;text-align:center;padding:6px;border-radius:8px;margin-top:6px;cursor:pointer;display:block;width:100%;font-size:14px;}
+</style>
+</head>
+<body>
+
+<div id="banner"><div id="bannerContent">مرحبًا بك اختر منتجاتك بكل سهولة، زِد الكمية ➕➖، وابعث طلبيتك مباشرة عبر واتساب</div></div>
+<header>👶fournisseur Couche Bébé</header>
+
+<div id="welcome-slider">
+  <div class="slide"><img src="https://i.ibb.co/j9yLXhcc/product-1.png" alt="صورة 1"></div>
+  <div class="slide"><img src="https://i.ibb.co/qYKw2dvK/images-3.jpg" alt="صورة 2"></div>
+  <div class="slide"><img src="https://i.ibb.co/rR7N2FsN/images-19.jpg" alt="صورة 3"></div>
+  <div class="slide"><img src="https://i.ibb.co/KzVTY4MS/images-21.jpg" alt="صورة 4"></div>
+  <div class="slide"><img src="https://i.ibb.co/Ng1dt1Wg/images-22-2.jpg" alt="صورة 5"></div>
+</div>
+
+<input id="searchBox" placeholder="🔍 بحث عن منتج...👉">
+
+<div id="categoryContainer">
+  <button class="categoryBtn active" data-category="all">الكل</button>
+  <button class="categoryBtn" data-category="حفاضات">حفاضات</button>
+  <button class="categoryBtn" data-category="شيبس">شيبس</button>
+  <button class="categoryBtn" data-category="كوتكس">كوتكس</button>
+</div>
+
+<div class="products" id="products"></div>
+
+<!-- MINI CART -->
+<div id="miniCartWrapper">
+  <div id="miniCartBtn" onclick="toggleCart()">🛒
+    <div id="miniCartCount">0</div>
+  </div>
+</div>
+
+<!-- CART POPUP -->
+<div class="cart" id="cartBox">
+  <h3>🛒 السلة</h3>
+  <div id="cartItems"></div>
+  <div class="total">المجموع: <span id="total">0</span> دج</div>
+  <div class="whatsapp" onclick="sendOrder()">📲 طلب عبر واتساب</div>
+</div>
+
+<script>
+// DATA
+let products = [
+{id:1,name:"Can Bebe 1 (12P)",price:2850,img:"https://i.ibb.co/fVS08W8J/IMG-9699-min.jpg",category:"حفاضات"},
+{id:2,name:"can Bebe 2 (12P)",price:2850,img:"https://i.ibb.co/cPMLbg9/images-5.jpg",category:"حفاضات"},
+{id:3,name:"Can Bebe 3 (12P)",price:2850,img:"https://i.ibb.co/VY7L9Vbd/images-7.jpg",category:"حفاضات"},
+{id:4,name:"Can Bebe 4 (12P)",price:2850,img:"https://i.ibb.co/prry0btL/images-8.jpg",category:"حفاضات"},
+{id:5,name:"can Bebe 5 (12P)",price:2850,img:"https://i.ibb.co/zWGVLzN5/images-9.jpg",category:"حفاضات"},
+{id:6,name:"Can Bebe 6 (12P)",price:3850,img:"https://i.ibb.co/6RbFVbnk/images-10.jpg",category:"حفاضات"},
+{id:7,name:"chips 150DA",price:3850,img:"https://via.placeholder.com/300",category:"شيبس"}
+];
+let cart = [];
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+// RENDER PRODUCTS
+function renderProducts(search="", category="all"){
+  let box=document.getElementById("products");
+  box.innerHTML="";
+  products.filter(p=>{
+    let matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
+    let matchCategory = (category==="all")||(p.category===category);
+    return matchSearch && matchCategory;
+  }).forEach(p=>{
+    let qty=0;
+    let item=cart.find(i=>i.id===p.id);
+    if(item) qty=item.qty;
+    box.innerHTML+=`
+    <div class="product">
+      <img src="${p.img}">
+      <h4>${p.name}</h4>
+      <div class="price">${p.price} دج</div>
+      <div class="qty-container">
+        <button class="qty-btn" onclick="changeQty(${p.id},-1)">−</button>
+        <input class="qty-input" type="number" min="0" id="q${p.id}" value="${qty}">
+        <button class="qty-btn" onclick="changeQty(${p.id},1)">+</button>
+      </div>
+    </div>`;
+  });
+  renderCart();
+}
+
+// SEARCH & CATEGORY
+document.getElementById("searchBox").oninput = ()=>{
+  let val=document.getElementById("searchBox").value;
+  let cat=document.querySelector(".categoryBtn.active").dataset.category;
+  renderProducts(val,cat);
+};
+document.querySelectorAll(".categoryBtn").forEach(btn=>{
+  btn.onclick = ()=>{
+    document.querySelectorAll(".categoryBtn").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    let cat = btn.dataset.category;
+    let val = document.getElementById("searchBox").value;
+    renderProducts(val,cat);
+  };
+});
+
+// CHANGE QTY
+function changeQty(id,n){
+  let input=document.getElementById("q"+id);
+  let val=parseInt(input.value)||0;
+  val+=n;if(val<0) val=0;input.value=val;
+
+  let item=cart.find(x=>x.id==id);
+  if(item){if(val===0) cart=cart.filter(x=>x.id!=id); else item.qty=val;}
+  else if(val>0){
+    let p=products.find(x=>x.id==id);
+    cart.push({...p,qty:val});
+  }
+  updateMiniCart();
+  renderCart();
+}
+
+// UPDATE MINI CART COUNT
+function updateMiniCart(){
+  const count=document.getElementById("miniCartCount");
+  count.innerText = cart.reduce((a,b)=>a+b.qty,0);
+}
+
+// TOGGLE CART POPUP
+function toggleCart(){
+  const cartBox=document.getElementById("cartBox");
+  if(cart.length===0){alert("السلة فارغة"); return;}
+  cartBox.style.display=(cartBox.style.display==="block")?"none":"block";
+}
+
+// RENDER CART
+function renderCart(){
+  let box=document.getElementById("cartItems");
+  let total=0;
+  box.innerHTML="";
+  cart.forEach(i=>{
+    total+=i.price*i.qty;
+    box.innerHTML+=`<div class="cart-item">${i.name} x${i.qty}<span class="remove" onclick="removeItem(${i.id})">✖</span></div>`;
+  });
+  document.getElementById("total").innerText=total;
+}
+
+// REMOVE ITEM
+function removeItem(id){
+  cart=cart.filter(x=>x.id!=id);
+  updateMiniCart();
+  renderCart();
+}
+
+// SEND ORDER
+function sendOrder(){
+  if(cart.length===0){alert("السلة فارغة"); return;}
+  let total=0;
+  let txt="طلبي:\n";
+  cart.forEach(i=>{
+    let sub=i.price*i.qty;
+    total+=sub;
+    txt+=`${i.name} * ${i.qty} = ${sub} دج\n`;
+  });
+  txt+="المجموع: "+total+" دج";
+  orders.push({items:[...cart], total:total, date:new Date().toLocaleString()});
+  localStorage.setItem("orders",JSON.stringify(orders));
+  window.open("https://wa.me/213668909334?text="+encodeURIComponent(txt),"_blank");
+  cart=[];
+  updateMiniCart();
+  renderCart();
+  renderProducts(document.getElementById("searchBox").value,document.querySelector(".categoryBtn.active").dataset.category);
+}
+
+// SLIDER
+let slides=document.querySelectorAll("#welcome-slider .slide");
+let current=0;
+slides[current].style.opacity=1;
+setInterval(()=>{
+  slides[current].style.opacity=0;
+  current=(current+1)%slides.length;
+  slides[current].style.opacity=1;
+},3000);
+
+// INITIAL RENDER
+renderProducts();
+</script>
+</body>
+</html>
