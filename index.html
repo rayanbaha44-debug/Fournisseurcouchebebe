@@ -150,11 +150,10 @@ header{
 .fly-product{
   position:fixed;
   width:50px;
-  height:50px;
-  border-radius:8px;
+  height:50px;border-radius:8px;
   z-index:10000;
   pointer-events:none;
-  transition: transform 0.6s cubic-bezier(.65,.05,.36,1), opacity 0.6s;
+  transition: transform 0.6s cubic-bezier(.65,.05,.36,1);
 }
 
 /* CART POPUP */
@@ -166,30 +165,27 @@ header{
 </style>
 </head>
 <body>
-
 <div id="banner"><div id="bannerContent">مرحبًا بك اختر منتجاتك بكل سهولة، زِد الكمية ➕➖، وابعث طلبيتك مباشرة عبر واتساب</div></div>
 <header>👶fournisseur Couche Bébé</header>
-
 <div id="welcome-slider">
-  <div class="slide"><img src="https://i.ibb.co/j9yLXhcc/product-1.png"></div>
-  <div class="slide"><img src="https://i.ibb.co/qYKw2dvK/images-3.jpg"></div>
-  <div class="slide"><img src="https://i.ibb.co/rR7N2FsN/images-19.jpg"></div>
-  <div class="slide"><img src="https://i.ibb.co/KzVTY4MS/images-21.jpg"></div>
-  <div class="slide"><img src="https://i.ibb.co/Ng1dt1Wg/images-22-2.jpg"></div>
+  <div class="slide"><img src="https://i.ibb.co/j9yLXhcc/product-1.png" alt="صورة 1"></div>
+  <div class="slide"><img src="https://i.ibb.co/qYKw2dvK/images-3.jpg" alt="صورة 2"></div>
+  <div class="slide"><img src="https://i.ibb.co/rR7N2FsN/images-19.jpg" alt="صورة 3"></div>
+  <div class="slide"><img src="https://i.ibb.co/KzVTY4MS/images-21.jpg" alt="صورة 4"></div>
+  <div class="slide"><img src="https://i.ibb.co/Ng1dt1Wg/images-22-2.jpg" alt="صورة 5"></div>
 </div>
-
 <input id="searchBox" placeholder="🔍 بحث عن منتج...👉">
 
 <div id="categoryContainer">
-  <button class="categoryBtn active" data-category="all">الكل</button>
-  <button class="categoryBtn" data-category="حفاضات">حفاضات</button>
-  <button class="categoryBtn" data-category="شيبس">شيبس</button>
-  <button class="categoryBtn" data-category="كوتكس">كوتكس</button>
+<button class="categoryBtn active" data-category="all">الكل</button>
+<button class="categoryBtn" data-category="حفاضات">حفاضات</button>
+<button class="categoryBtn" data-category="شيبس">شيبس</button>
+<button class="categoryBtn" data-category="كوتكس">كوتكس</button>
 </div>
 
 <div class="products" id="products"></div>
 
-<!-- MINI CART -->
+<!-- MINI CART BUTTON + TIP -->
 <div id="miniCartWrapper">
   <div id="miniCartBtn" onclick="toggleCart()">🛒
     <div id="miniCartCount">0</div>
@@ -210,14 +206,14 @@ header{
 
 <script>
 // DATA
-let products = [
-{id:1,name:"Can Bebe 1 (12P)",price:2850,img:"https://i.ibb.co/fVS08W8J/IMG-9699-min.jpg",category:"حفاضات"},
-{id:2,name:"can Bebe 2 (12P)",price:2850,img:"https://i.ibb.co/cPMLbg9/images-5.jpg",category:"حفاضات"},
-{id:3,name:"Can Bebe 3 (12P)",price:2850,img:"https://i.ibb.co/VY7L9Vbd/images-7.jpg",category:"حفاضات"},
-{id:4,name:"Can Bebe 4 (12P)",price:2850,img:"https://i.ibb.co/prry0btL/images-8.jpg",category:"حفاضات"},
-{id:5,name:"can Bebe 5 (12P)",price:2850,img:"https://i.ibb.co/zWGVLzN5/images-9.jpg",category:"حفاضات"},
-{id:6,name:"Can Bebe 6 (12P)",price:3850,img:"https://i.ibb.co/6RbFVbnk/images-10.jpg",category:"حفاضات"},
-{id:7,name:"chips 150DA",price:3850,img:"https://via.placeholder.com/300",category:"شيبس"},
+let products = JSON.parse(localStorage.getItem("products")) || [
+  {id:1,name:"Can Bebe 1 (12P)",price:2850,img:"https://i.ibb.co/fVS08W8J/IMG-9699-min.jpg",category:"حفاضات"},
+  {id:2,name:"can Bebe 2 (12P)",price:2850,img:"https://i.ibb.co/cPMLbg9/images-5.jpg",category:"حفاضات"},
+  {id:3,name:"Can Bebe 3 (12P)",price:2850,img:"https://i.ibb.co/VY7L9Vbd/images-7.jpg",category:"حفاضات"},
+  {id:4,name:"Can Bebe 4 (12P)",price:2850,img:"https://i.ibb.co/prry0btL/images-8.jpg",category:"حفاضات"},
+  {id:5,name:"can Bebe 5 (12P)",price:2850,img:"https://i.ibb.co/zWGVLzN5/images-9.jpg",category:"حفاضات"},
+  {id:6,name:"Can Bebe 6 (12P)",price:3850,img:"https://i.ibb.co/6RbFVbnk/images-10.jpg",category:"حفاضات"},
+  {id:7,name:"chips 150DA",price:3850,img:"https://via.placeholder.com/300",category:"شيبس"}
 ];
 
 let cart = [];
@@ -225,7 +221,8 @@ let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
 // RENDER PRODUCTS
 function renderProducts(search="", category="all"){
-  let box=document.getElementById("products"); box.innerHTML="";
+  let box=document.getElementById("products");
+  box.innerHTML="";
   products.filter(p=>{
     let matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
     let matchCategory = (category==="all")||(p.category===category);
@@ -235,38 +232,50 @@ function renderProducts(search="", category="all"){
     let item=cart.find(i=>i.id===p.id);
     if(item) qty=item.qty;
     box.innerHTML+=`
-      <div class="product">
-      <img src="${p.img}">
-      <h4>${p.name}</h4>
+    <div class="product">
+      <img src="${p.img}"><h4>${p.name}</h4>
       <div class="price">${p.price} دج</div>
       <div class="qty-container">
         <button class="qty-btn" onclick="changeQty(${p.id},-1)">−</button>
         <input class="qty-input" type="number" min="0" id="q${p.id}" value="${qty}">
         <button class="qty-btn" onclick="changeQty(${p.id},1)">+</button>
       </div>
-      </div>`;
+    </div>`;
   });
-  updateMiniCart();
+  renderCart();
 }
 
 // SEARCH + CATEGORY
-document.getElementById("searchBox").oninput = () => {
-  renderProducts(document.getElementById("searchBox").value.trim(),
-    document.querySelector(".categoryBtn.active").dataset.category);
+const searchBox = document.getElementById("searchBox");
+searchBox.oninput = () => {
+  renderProducts(
+    searchBox.value.trim(),
+    document.querySelector(".categoryBtn.active").dataset.category
+  );
 };
-
 document.querySelectorAll(".categoryBtn").forEach(btn=>{
   btn.onclick = () => {
     document.querySelectorAll(".categoryBtn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
-    renderProducts(document.getElementById("searchBox").value.trim(), btn.dataset.category);
+    renderProducts(searchBox.value.trim(), btn.dataset.category);
   };
 });
 
-// CHANGE QTY + FLY EFFECT
+// UPDATE MINI CART
+function updateMiniCart(){
+  const count = cart.reduce((a,b)=>a+b.qty,0);
+  document.getElementById("miniCartCount").innerText = count;
+  const tip = document.getElementById("miniCartTipWrapper");
+  tip.style.display = count>0?"flex":"none";
+  const cartBox = document.getElementById("cartBox");
+  if(cart.length===0) cartBox.style.display="none";
+}
+
+// CHANGE QTY
 function changeQty(id,n){
   let input=document.getElementById("q"+id);
-  let val=parseInt(input.value)||0; val+=n; if(val<0) val=0; input.value=val;
+  let val=parseInt(input.value)||0;
+  val+=n;if(val<0) val=0;input.value=val;
 
   let item=cart.find(x=>x.id==id);
   if(item){if(val===0) cart=cart.filter(x=>x.id!=id); else item.qty=val;}
@@ -274,70 +283,73 @@ function changeQty(id,n){
     let p=products.find(x=>x.id==id);
     cart.push({...p,qty:val});
 
-    // Fly to cart
-    let prodImg=document.querySelector(`#products div.product:nth-child(${products.indexOf(p)+1}) img`);
-    let flyImg=prodImg.cloneNode(true);
-    flyImg.classList.add("fly-product");
-    flyImg.style.left=prodImg.getBoundingClientRect().left+"px";
-    flyImg.style.top=prodImg.getBoundingClientRect().top+"px";
-    document.body.appendChild(flyImg);
     const cartBtn=document.getElementById("miniCartBtn");
-    const cartRect=cartBtn.getBoundingClientRect();
-    setTimeout(()=>{
-      flyImg.style.transform=`translate(${cartRect.left - prodImg.getBoundingClientRect().left}px, ${cartRect.top - prodImg.getBoundingClientRect().top}px) scale(0.2)`;
-      flyImg.style.opacity="0.7";
-      cartBtn.classList.add("jump");
-    },50);
-    setTimeout(()=>{
-      flyImg.remove();
-      cartBtn.classList.remove("jump");
-    },700);
+    cartBtn.classList.add("jump");
+    setTimeout(()=>cartBtn.classList.remove("jump"),400);
+
+    let prodImg=document.querySelector(`#products div.product:nth-child(${products.indexOf(p)+1}) img`);
+    let flyImg=prodImg.cloneNode(true);flyImg.classList.add("fly-product");document.body.appendChild(flyImg);
+    let rect=prodImg.getBoundingClientRect();
+    flyImg.style.left=rect.left+"px"; flyImg.style.top=rect.top+"px";
+    let cartRect=cartBtn.getBoundingClientRect();
+    setTimeout(()=>{flyImg.style.transform=`translate(${cartRect.left-rect.left}px, ${cartRect.top-rect.top}px) scale(0.2)`; flyImg.style.opacity="0.7";},50);
+    setTimeout(()=>flyImg.remove(),700);
   }
-
+  renderCart();
   updateMiniCart();
-}
-
-// UPDATE MINI CART
-function updateMiniCart(){
-  const count=cart.reduce((a,b)=>a+b.qty,0);
-  document.getElementById("miniCartCount").innerText=count;
-  document.getElementById("miniCartTipWrapper").style.display=(count>0)?"flex":"none";
 }
 
 // RENDER CART
 function renderCart(){
-  let box=document.getElementById("cartItems"); box.innerHTML="";
-  let total=0;
+  let box=document.getElementById("cartItems"); 
+  let total=0; 
+  box.innerHTML="";
   cart.forEach(i=>{
-    total+=i.price*i.qty;
-    box.innerHTML+=`<div class="cart-item">${i.name} x${i.qty}<span class="remove" onclick="removeItem(${i.id})">✖</span></div>`;
+    total+=i.price*i.qty; 
+    box.innerHTML+=`
+      <div class="cart-item">
+        ${i.name} x${i.qty}
+        <span class="remove" onclick="removeItem(${i.id})">✖</span>
+      </div>`;
   });
   document.getElementById("total").innerText=total;
-  if(cart.length===0) document.getElementById("cartBox").style.display="none";
+  updateMiniCart();
 }
 
 // REMOVE ITEM
-function removeItem(id){cart=cart.filter(x=>x.id!=id); renderCart(); updateMiniCart();}
+function removeItem(id){cart=cart.filter(x=>x.id!=id); renderCart();}
 
 // SEND ORDER
 function sendOrder(){
   if(cart.length===0){alert("السلة فارغة"); return;}
-  let total=0; let txt="طلبي:\n";
-  cart.forEach(i=>{total+=i.price*i.qty; txt+=`${i.name} * ${i.qty} = ${i.price*i.qty} دج\n`;});
-  txt+=`المجموع: ${total} دج`;
+  let total=0;
+  let txt="طلبي:\n";
+  cart.forEach(i=>{
+    let sub=i.price*i.qty;
+    total+=sub;
+    txt+=i.name+" * "+i.qty+" = "+sub+" دج\n";
+  });
+  txt+="المجموع: "+total+" دج";
   orders.push({items:[...cart], total:total, date:new Date().toLocaleString()});
-  localStorage.setItem("orders", JSON.stringify(orders));
-  window.open("https://wa.me/213668909334?text="+encodeURIComponent(txt),"_blank");
-  cart=[]; renderCart(); updateMiniCart(); renderProducts();
+  localStorage.setItem("orders",JSON.stringify(orders));
+  window.open("https://wa.me/213668909334?text="+encodeURIComponent(txt), "_blank");
+  cart=[];
+  renderCart();
+  renderProducts(searchBox.value.trim(), document.querySelector(".categoryBtn.active").dataset.category);
 }
 
 // TOGGLE CART POPUP
 function toggleCart(){let c=document.getElementById("cartBox"); if(cart.length===0){alert("السلة فارغة"); return;} c.style.display=(c.style.display==="block")?"none":"block";}
 
 // SLIDER
-let slides=document.querySelectorAll("#welcome-slider .slide"),current=0;
+let slides = document.querySelectorAll("#welcome-slider .slide");
+let current=0;
 slides[current].style.opacity=1;
-setInterval(()=>{slides[current].style.opacity=0; current=(current+1)%slides.length; slides[current].style.opacity=1;},3000);
+setInterval(()=>{
+  slides[current].style.opacity=0;
+  current=(current+1)%slides.length;
+  slides[current].style.opacity=1;
+},3000);
 
 // INITIAL RENDER
 renderProducts();
