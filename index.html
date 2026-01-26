@@ -417,7 +417,7 @@ function sendOrder(){
   txt+="المجموع: "+total+" دج";
   orders.push({items:[...cart], total:total, date:new Date().toLocaleString()});
   localStorage.setItem("orders",JSON.stringify(orders));
-  window.open("https://wa.me/213668909334?text="+encodeURIComponent(txt), "_blank");
+  window.open("https://wa.me/213658067624?text="+encodeURIComponent(txt), "_blank");
   cart=[];
   renderCart();
   renderProducts(searchBox.value.trim(), document.querySelector(".categoryBtn.active").dataset.category);
