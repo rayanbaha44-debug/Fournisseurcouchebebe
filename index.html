@@ -320,7 +320,7 @@ function renderProducts(search="", category="all"){
     box.innerHTML+=`
     <div class="product" data-id="${p.id}">
       <img src="${p.img}"><h4>${p.name}</h4>
-      <div class="price">${p.price} دج</div>
+      <div class="price">${p.available ? p.price + " دج" : "غير متوفر"}</div>
       <div class="qty-container">
         <button class="qty-btn" onclick="changeQty(${p.id},-1)">−</button>
         <input class="qty-input" type="number" min="0" id="q${p.id}" value="${qty}">
