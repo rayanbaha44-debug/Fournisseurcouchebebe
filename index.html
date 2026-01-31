@@ -373,7 +373,7 @@ function changeQty(id,n){
     cartBtn.classList.add("jump");
     setTimeout(()=>cartBtn.classList.remove("jump"),400);
 
-    let prodImg=document.querySelector(`#products div.product:nth-child(${products.indexOf(p)+1}) img`);
+    let prodImg = document.querySelector(`#products div.product[data-id='${id}'] img`);
     let flyImg=prodImg.cloneNode(true);flyImg.classList.add("fly-product");document.body.appendChild(flyImg);
     let rect=prodImg.getBoundingClientRect();
     flyImg.style.left=rect.left+"px"; flyImg.style.top=rect.top+"px";
