@@ -325,7 +325,13 @@ function renderProducts(search="", category="all"){
 </div>
       <div class="qty-container">
   <button class="qty-btn" onclick="changeQty(${p.id},-1)" ${!p.available ? "disabled" : ""}>−</button>
-  <input class="qty-input" type="number" min="0" id="q${p.id}" value="${qty}" ${!p.available ? "disabled" : ""}>
+  <input class="qty-input" 
+       type="number" 
+       min="0" 
+       id="q${p.id}" 
+       value="${qty}"
+       oninput="updateQty(${p.id})"
+       ${(!p.available || p.price==0) ? "disabled" : ""}>
   <button class="qty-btn" onclick="changeQty(${p.id},1)" ${!p.available ? "disabled" : ""}>+</button>
 </div>
     </div>`;
@@ -386,6 +392,27 @@ function changeQty(id,n){
   renderCart();
   updateMiniCart();
 }
+  function updateQty(id){
+  let input = document.getElementById("q"+id);
+  let value = parseInt(input.value) || 0;
+
+  let product = products.find(p=>p.id===id);
+  if(!product || !product.available || product.price==0) return;
+
+  let item = cart.find(i=>i.id===id);
+
+  if(value <= 0){
+    cart = cart.filter(i=>i.id!==id);
+  }else{
+    if(item){
+      item.qty = value;
+    }else{
+      cart.push({id:id,name:product.name,price:product.price,qty:value});
+    }
+  }
+
+  renderCart();
+        }
 
 // RENDER CART
 function renderCart(){
