@@ -325,12 +325,16 @@ function renderProducts(search="", category="all"){
 </div>
       <div class="qty-container">
   <button class="qty-btn" onclick="changeQty(${p.id},-1)" ${!p.available ? "disabled" : ""}>−</button>
-  <input class="qty-input" 
-       type="number" 
-       min="0" 
-       id="q${p.id}" 
+  <input class="qty-input"
+       type="number"
+       min="0"
+       inputmode="numeric"
+       pattern="[0-9]*"
+       id="q${p.id}"
        value="${qty}"
-       oninput="updateQty(${p.id})"
+       onfocus="handleFocus(this)"
+       onblur="handleBlur(this, ${p.id})"
+       oninput="handleInput(this, ${p.id})"
        ${(!p.available || p.price==0) ? "disabled" : ""}>
   <button class="qty-btn" onclick="changeQty(${p.id},1)" ${!p.available ? "disabled" : ""}>+</button>
 </div>
